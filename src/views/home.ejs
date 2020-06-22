@@ -1,8 +1,86 @@
-<head>
-   <link rel="stylesheet" href="../public/css/main.css">
-</head>
+<%- include('../parts/body') -%>
 
 <body>
-   <p><%- joke -%></p>
-   <img src="https://cdn.discordapp.com/avatars/475371795185139712/680b8c110289cadc1fe910d95701c6e3.png">
+   <div class="container">
+      <div class="column">
+         <img class="cat" src="https://vetstreet.brightspotcdn.com/dims4/default/e5cdb1e/2147483647/thumbnail/645x380/quality/90/?url=https%3A%2F%2Fvetstreet-brightspot.s3.amazonaws.com%2F17%2F53%2F446d643647739735401463464158%2FBengal-AP-LQYI02-645sm3614.jpg">
+      </div>
+   </div>
+      <div class="column about">
+         <h1 class="about-me">About Me</h1>
+         <p class="text" style="color: seashell;">They say im pretty lost, because im pretty and lost. Pretty Lost :)<br>I am relatively fluent with JavaScript, and I'm currently learning Python and attempting C++</p>
+      </div>
+      <div class="navbar is-dark l2">©️ OfficiallyLost 2020 
+         <a href="/">
+         <div class="navbar-item home">
+            <b>Home</b>
+            <img src="https://cdn3.iconfinder.com/data/icons/vr-website-iconset/54/home-512.png">
+         </div>
+         </a>
+         <a href="/github">
+         <div class="navbar-item github">
+            <b>GitHub</b>
+            <img src="https://img.icons8.com/wired/72/github.png">
+         </div>
+         </a>
+         <a href="/discord">
+         <div class="navbar-item discord">
+            <b>Discord</b>
+            <img src="https://img.icons8.com/ios/1600/discord-logo.png">
+         </div>
+         </a>
+      </div>
 </body>
+<style>
+   .l2 {
+    display: inline-block;
+   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+   }
+   .navbar {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 40px;
+      height: 174px;
+      margin-top: 50px;
+      display: inline-block;
+   }
+
+   .navbar-item {
+      padding: 10px;
+      background-color: rgba(227, 227, 248, 0.11);
+      color: white;
+      border-radius: 10px;
+      border-color: white;
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+   }
+   .cat {
+      padding: 10px;
+      background-color: black;
+      border-radius: 50px;
+   }
+   body {
+      background-color: rgb(128, 255, 255);
+   }
+   .about-me {
+      text-align: center;
+      display: inline-block;
+      font-size: 50px;
+      color: white;
+   }
+   .about {
+      margin-left: 28%;
+      display: inline-block;
+      text-align: center;
+      background-color: gray;
+      border-radius: 20px;
+   }
+   .container {
+      width: 100%;
+      text-align: center;
+   }
+   .text {
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: bold;
+   }
+</style>
