@@ -1,15 +1,53 @@
+<%- include('../parts/body') -%>
 <body>
-   <div class="joke">
-      <p><%= joke %></p>
+   
+   <div class="container">
+      <div class="notification">
+         <h2 class="joke"><%= joke %></h2>
+      </div>
+      <div class="lost-cat">
+         <img src="https://i.pinimg.com/originals/07/e1/dd/07e1dd4d1a982f9fcd016785cc7a496c.jpg">
+      </div>
+   </div>
+   <div class="navbar is-dark bottom">
+      <a href="/">
+         <div class="navbar-item">
+            Take me Home
+         </div>
+      </a>
    </div>
 </body>
 <style>
    .joke {
       font-family: fantasy;
       text-align: center;
-      margin-right: 8%;
-      margin-top: 15%; 
-      background-color: aqua;
-      padding-right: 50px;
+      font-size: 50px;
+   }
+   .lost-cat {
+      border-radius: 10px;
+      margin-left: 10%
+   }
+   .bottom {
+      background-color: black;
+      margin-top: 40px;
+      height: 183px;
+
+   }
+   .navbar-item {
+      width: 200px;
+      height: 100px;
+      margin-left: 400%;
+      margin-top: 45px;
+      border-radius: 10px;
+      background-color: rgb(199, 243, 202);
+   }
+      .navbar-item:hover {
+      width: 200px;
+      height: 100px;
+      margin-left: 400%;
+      margin-top: 45px;
+      border-radius: 10px;
+      background-color: rgb(215, 216, 215);
    }
 </style>
+<%- include('../parts/body') -%>
