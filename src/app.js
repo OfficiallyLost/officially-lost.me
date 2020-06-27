@@ -5,6 +5,7 @@ const db = require('./database/index');
 const user = require('./database/models/user');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
+const passportlocal = require('passport-local');
 const flash = require('express-flash');
 const session = require('express-session');
 const init = require('./auth/passport');
@@ -18,10 +19,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-init(passport, (username, email) => {
+init(passportlocal, (username, email) => {
 	return users.find((e) => e.email === email);
 });
-const LocalStrategy = require('passport-local').Strategy
 app.use(
 	session({
 		secret: 'idk',
