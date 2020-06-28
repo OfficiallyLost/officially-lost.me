@@ -32,13 +32,8 @@ app.use(
 	})
 );
 
-app.get('/url', allowed, async (req, res) => {
+app.get('/url', async (req, res) => {
 	res.render('url');
-	// const newURL = await url.create({
-	// 	short: 'hi',
-	// 	full: req.url
-	// });
-	// res.status(200).send(newURL);
 });
 
 app.post('/url', async (req, res) => {
@@ -50,7 +45,6 @@ app.post('/url', async (req, res) => {
 });
 
 app.get('/file/:url', async (req, res) => {
-	console.log(req.params);
 	const check = await url.findOne({ short: req.params.url });
 	if (check === null) {
 		res.render('404', { joke: "Thats not a correct URL! You've hit the 404 page nerd!" });
