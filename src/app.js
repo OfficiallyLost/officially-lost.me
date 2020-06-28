@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const db = require('./database/index');
+const url = require('./database/models/url');
 const user = require('./database/models/user');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
@@ -9,6 +10,7 @@ const passportlocal = require('passport-local');
 const flash = require('express-flash');
 const session = require('express-session');
 const init = require('./auth/passport');
+const short = require('shortid');
 
 db.then(() => console.log('Successfully connected the database')).catch((e) => console.log(e));
 process.on('unhandledRejection', () => {});
@@ -29,6 +31,33 @@ app.use(
 		saveUninitialized: false
 	})
 );
+
+app.get('/url', allowed, async (req, res) => {
+	res.render('url');
+	// const newURL = await url.create({
+	// 	short: 'hi',
+	// 	full: req.url
+	// });
+	// res.status(200).send(newURL);
+});
+
+app.post('/url', async (req, res) => {
+	const newURL = await url.create({
+		short: short.generate(req.body.full),
+		full: req.body.full
+	});
+	res.status(200).send(newURL);
+});
+
+app.get('/file/:url', async (req, res) => {
+	console.log(req.params);
+	const check = await url.findOne({ short: req.params.url });
+	if (check === null) {
+		res.render('404', { joke: "Thats not a correct URL! You've hit the 404 page nerd!" });
+	} else {
+		res.redirect(check.full);
+	}
+});
 
 app.get('/', (req, res) => {
 	res.render('home');
@@ -89,3 +118,5 @@ app.get('*', (req, res) => {
 		joke: "Are you Lost? I can't find this page, it doesn't exist!"
 	});
 });
+
+function allowed() {}
