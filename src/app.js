@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const socket = require('socket.io')(2000);
 const path = require('path');
 const db = require('./database/index');
 const url = require('./database/models/url');
@@ -31,6 +32,13 @@ app.use(
 		saveUninitialized: false
 	})
 );
+
+app.get('/chat', async (req, res) => {
+	res.render('chat');
+	socket.on('connection', (skt) => {
+		skt.emit('message', 'hi');
+	});
+});
 
 app.get('/url', async (req, res) => {
 	res.render('url');
