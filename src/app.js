@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const socket = require('socket.io')(2000);
 const path = require('path');
 const db = require('./database/index');
 const url = require('./database/models/url');
@@ -12,7 +11,7 @@ const flash = require('express-flash');
 const session = require('express-session');
 const init = require('./auth/passport');
 const short = require('shortid');
-
+// const io = require('socket.io')(7000);
 db.then(() => console.log('Successfully connected the database')).catch((e) => console.log(e));
 process.on('unhandledRejection', () => {});
 app.set('view engine', 'ejs');
@@ -22,23 +21,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-init(passportlocal, (username, email) => {
-	return users.find((e) => e.email === email);
-});
-app.use(
-	session({
-		secret: 'idk',
-		resave: false,
-		saveUninitialized: false
-	})
-);
-
-app.get('/chat', async (req, res) => {
-	res.render('chat');
-	socket.on('connection', (skt) => {
-		skt.emit('message', 'hi');
-	});
-});
 
 app.get('/url', async (req, res) => {
 	res.render('url');
@@ -66,40 +48,6 @@ app.get('/', (req, res) => {
 	console.log('someone accessed the home page');
 });
 
-app.get('/login', (req, res) => {
-	res.render('login');
-});
-
-app.get('/create', (req, res) => {
-	res.render('create');
-});
-
-app.post('/create', async (req, res) => {
-	try {
-		const password = await bcrypt.hash(req.body.password, 15);
-		console.log(req.body);
-		const pers = await user.create({
-			id: Date.now().toString(),
-			name: req.body.username,
-			email: req.body.email,
-			password: password
-		});
-		console.log(pers);
-		res.redirect('/thank-u');
-	} catch (e) {
-		console.log(e);
-	}
-});
-
-app.post(
-	'/login',
-	passport.authenticate('local', {
-		successRedirect: '/',
-		failureRedirect: '/login',
-		failureFlash: true
-	})
-);
-
 app.get('/github', (req, res) => {
 	res.redirect('https://github.com/OfficiallyLost/');
 	console.log('someone accessed the github');
@@ -110,15 +58,15 @@ app.get('/discord', (req, res) => {
 	console.log('someone accessed discord');
 });
 
-app.listen(8000, () => {
-	console.log('Listening on port 8000');
-});
-
 app.get('*', (req, res) => {
 	console.log('someone hit the 404');
 	res.render('404', {
 		joke: "Are you Lost? I can't find this page, it doesn't exist!"
 	});
+});
+
+app.listen(8000, () => {
+	console.log('Listening on port ' + 8000);
 });
 
 function allowed() {}
