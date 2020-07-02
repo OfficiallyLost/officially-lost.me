@@ -4,28 +4,72 @@ const path = require('path');
 const db = require('./database/index');
 const url = require('./database/models/url');
 const user = require('./database/models/user');
-const bcrypt = require('bcrypt');
-const passport = require('passport');
-const passportlocal = require('passport-local');
-const flash = require('express-flash');
-const session = require('express-session');
-const init = require('./auth/passport');
+const bodyParser = require('body-parser');
 const short = require('shortid');
-// const io = require('socket.io')(7000);
+const crypt = require('crypto-js');
+const argon2 = require('argon2');
+const FUCK_OFF = require('./SHIT_OFF');
+let message;
 db.then(() => console.log('Successfully connected the database')).catch((e) => console.log(e));
 process.on('unhandledRejection', () => {});
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: false }));
-app.use(flash());
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(bodyParser.urlencoded({ extended: false }))
+
+app.get('/login', (req, res) => {
+	res.render('login', { message: 'Log into your Lost account :D' });
+});
+
+app.get('/create', (req, res) => {
+	res.render('create', { message: 'Create your Lost account today!' });
+});
 
 app.get('/url', async (req, res) => {
 	res.render('url');
 });
 
+app.post('/create', async (req, res) => {
+	const username = req.body.username;
+	const password = req.body.password;
+	console.log(username);
+	const theu = await user.findOne({ username });
+	if (theu === null) {
+		const enpass = await argon2.hash(password);
+		console.log(enpass);
+		const nu = await user.create({
+			id: Date.now().toString(),
+			username,
+			password: enpass
+		});
+		console.log(nu);
+		res.redirect('ty');
+	} else {
+		message = 'Uh oh, that username already exists...';
+		res.render('create', { message: 'Create your Lost account today :)' });
+	}
+});
+
+app.post('/login', async (req, res) => {
+	const username = req.body.username;
+	const password = req.body.password;
+	const findU = await user.findOne({ username });
+	if (findU === null) {
+		res.render('login', { message: 'That username does not exist' });
+	} else {
+		try {
+			if (await argon2.verify(findU.password, password)) {
+				res.render('dashboard');
+			} else {
+				res.render('login', { message: 'That is an incorrect password.' });
+			}
+		} catch (e) {
+			res.render('login', { message: 'Something went wrong... Please try again.' });
+			console.log(e);
+		}
+	}
+});
 app.post('/url', async (req, res) => {
 	const newURL = await url.create({
 		short: short.generate(req.body.full),
