@@ -1,20 +1,16 @@
-<h1 class="title">Login to your account</h1>
-<% if (messages.error) { %>
-   <%= messages.error %> 
-<% } %>
-<form action="/login" method="POST">
-   <div>
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" required>
-   </div>
-   <div>
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" required>
-   </div>
-   <div>
-      <label for="username">Password</label>
-      <input type="password" id="password" name="password" required>
-   </div>
-   <button class="button" type="submit">Login</button>
-</form>
-<p>Dont have an account? <a href="/register">Click here!</a></p>
+<div class="container">
+   <h1>Login your account.</h1>
+   <form action="/login" method="POST" method="GET">
+      <div class="form">
+         <label for="username-inp">Username</label>
+         <input type="text" name="username" class="username input" id="username-inp">
+      </div>
+      <div class="form">
+         <label for="password-inp">assword</label>
+         <input type="password" name="password" class="password input" id="password-inp">
+      </div>
+         <%- message -%>
+            <button type="submit" class="button is-success">Login</button>
+      <p>Dont have an account? <a href="/create">Click here</a></p>
+   </form>
+</div>
