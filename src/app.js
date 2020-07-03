@@ -8,7 +8,6 @@ const bodyParser = require('body-parser');
 const short = require('shortid');
 const crypt = require('crypto-js');
 const argon2 = require('argon2');
-const FUCK_OFF = require('./SHIT_OFF');
 let message;
 db.then(() => console.log('Successfully connected the database')).catch((e) => console.log(e));
 process.on('unhandledRejection', () => {});
@@ -46,21 +45,27 @@ app.post('/create', async (req, res) => {
 		console.log(nu);
 		res.redirect('ty');
 	} else {
-		message = 'Uh oh, that username already exists...';
-		res.render('create', { message: 'Create your Lost account today :)' });
+		res.render('create', { message: 'Uh oh, that username already exists...' });
 	}
+});
+
+app.get('/users/:user', async (req, res) => {
+	res.render('dashboard', {
+		user: await user.findOne({ id: req.params.user })
+	});
 });
 
 app.post('/login', async (req, res) => {
 	const username = req.body.username;
 	const password = req.body.password;
 	const findU = await user.findOne({ username });
+
 	if (findU === null) {
 		res.render('login', { message: 'That username does not exist' });
 	} else {
 		try {
 			if (await argon2.verify(findU.password, password)) {
-				res.render('dashboard');
+				res.redirect(`/users/${findU.id}`);
 			} else {
 				res.render('login', { message: 'That is an incorrect password.' });
 			}
