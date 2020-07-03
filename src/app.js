@@ -18,11 +18,11 @@ app.use(express.urlencoded({ extended: false }));
 // app.use(bodyParser.urlencoded({ extended: false }))
 
 app.get('/login', (req, res) => {
-	res.render('login', { message: 'Log into your Lost account :D' });
+	res.render('login', { message: 'Log into your account :D' });
 });
 
 app.get('/create', (req, res) => {
-	res.render('create', { message: 'Create your Lost account today!' });
+	res.render('create', { message: 'Create your account today!' });
 });
 
 app.get('/url', async (req, res) => {
