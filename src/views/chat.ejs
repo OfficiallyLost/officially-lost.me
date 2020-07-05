@@ -2,6 +2,50 @@
 <html>
    <head>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.1/css/bulma.min.css">
+      <title>OfficiallyLost</title>
    </head>
    <body>
+      <div class="container" id="send-message-container">
+         <div>
+            <button class="button is-success" id="button">Send Message</button>
+            <input id="send-message-input" type="text" required/>
+         </div>
+      </div>
+   </body>
 </html>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+  const msgContainer = document.getElementById('send-message-container');
+  const msgInput = document.getElementById('send-message-input');
+  const button = document.getElementById('button')
+  const user = <%- JSON.stringify(user) %>
+  createMessage(`Welcome to the chatroom, ${user.username}!`);
+  socket.emit('newUser', { user });
+   
+  socket.on('message', (message) => {
+     console.log('message: ' + message)
+     createMessage(`${user.username}: ${message.message}`);
+  });
+  
+  socket.on('userConnected', (user) => {
+     createMessage(`${user.user.username} joined the chat!`);
+     console.log('connected');
+  });
+  socket.on('userDisconnected', (user) => {
+     console.log('hiybeogk')
+     createMessage(`${user} Left the chat.`)
+  } )
+  button.addEventListener('click', (e) => {
+     e.preventDefault();
+     const message = msgInput.value;
+     createMessage(`${user.user.username}: ${message}`)
+     socket.emit('sendMessage', message);
+     msgInput.value = '';
+  });
+  function createMessage(message) {
+     const msgElement = document.createElement('div');
+     msgElement.innerText = message;
+     msgContainer.append(msgElement);
+  }
+</script>
