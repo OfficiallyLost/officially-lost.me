@@ -1,17 +1,53 @@
-<div class="container">
-   <h1>Create your account</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>OfficiallyLost</title>
+   <link rel="shortcut icon" type="image/x-icon" href="https://cdn.discordapp.com/avatars/475371795185139712/c4fda398ffa314b544a82aab449b41d3.png"/>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.1/css/bulma.min.css">
+</head>
+
+<body>
+   <div class="container">
    <form action="/create" method="POST">
+      <h1><%- message %></h1>
       <div class="form">
          <label for="username-inp">Username</label>
-         <input type="text" name="username" class="username input" id="username-inp">
+         <input type="text" name="username" placeholder="Enter the username you'd like to be identified as" class="username input" id="username-inp">
       </div>
-      <div class="form">
-         <label for="password-inp">Username</label>
-         <input type="password" name="password" class="password input" id="password-inp">
+      <div>
+         <label for="password-inp">Password</label>
+         <input type="password" name="password" placeholder="Enter your desired password." class="password input" id="password-inp">
       </div>
-         <%- message -%>
-      <button type="submit" class="button is-success">Create my account!</button>
-      <p>Already have an account? <a href="/login">Click here</a></p>
+      <div>
+         <label for="password-inp-v">Password</label>
+         <input type="password" name="passwordVer" placeholder="Enter the same password" class="password input" id="password-inp-v">
+      </div>
+            <button type="submit" class="button is-success">Create my account!</button>
+      <p>Already have an account?<a href="/login">Click here</a></p>
    </form>
 </div>
-<a href="thank-u"></a>
+</body>
+</html>
+
+<style>
+   input {
+      padding-left: 10px;
+   }
+   button {
+      margin-top: 13px;
+      margin-bottom: 10px;
+   }
+   .container {
+   background-color: rgba(255, 255, 255, 0.733);
+   margin-top: 10%;
+   text-align: center;
+   }
+   h1 {
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      font-weight: 100;
+      font-size: larger;
+      display: inline-block;
+   }
+</style>
