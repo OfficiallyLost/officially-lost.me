@@ -15,31 +15,33 @@
 </html>
 <script src="/socket.io/socket.io.js"></script>
 <script>
+
   const socket = io();
   const msgContainer = document.getElementById('send-message-container');
   const msgInput = document.getElementById('send-message-input');
-  const button = document.getElementById('button')
+  const button = document.getElementById('button');
   const user = <%- JSON.stringify(user) %>
+
   createMessage(`Welcome to the chatroom, ${user.username}!`);
   socket.emit('newUser', { user });
-   
-  socket.on('message', (message) => {
-     console.log('message: ' + message)
-     createMessage(`${user.username}: ${message.message}`);
+
+  socket.on('message', (message, user) => {
+     console.log(message.user);
+     createMessage(`${message.user.user.username}: ${message.message}`);
   });
   
   socket.on('userConnected', (user) => {
      createMessage(`${user.user.username} joined the chat!`);
      console.log('connected');
   });
-  socket.on('userDisconnected', (user) => {
+  socket.on('userDisconnected', (person) => {
      console.log('hiybeogk')
-     createMessage(`${user} Left the chat.`)
-  } )
+     createMessage(`${person.user.username} Left the chat.`)
+  });
   button.addEventListener('click', (e) => {
      e.preventDefault();
      const message = msgInput.value;
-     createMessage(`${user.user.username}: ${message}`)
+     createMessage(`${user.username}: ${message}`)
      socket.emit('sendMessage', message);
      msgInput.value = '';
   });
