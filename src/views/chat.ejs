@@ -6,9 +6,17 @@
    </head>
    <body>
       <div class="container" id="send-message-container">
-         <div>
-            <button class="button is-success" id="button">Send Message</button>
-            <input id="send-message-input" type="text" required/>
+         <div class="msg-container">
+            <label for="send-message-input">
+               <button class="button is-success is-rounded" id="button">Send Message</button>
+            </label>
+            <input
+            id="send-message-input"
+            type="text"
+            placeholder="Enter Message"
+            required
+            autocomplete="off"
+            />
          </div>
       </div>
    </body>
@@ -21,13 +29,15 @@
   const msgInput = document.getElementById('send-message-input');
   const button = document.getElementById('button');
   const user = <%- JSON.stringify(user) %>
-
-  createMessage(`Welcome to the chatroom, ${user.username}!`);
+  setTimeout((e) => {
+     const el = document.getElementById('welcomeMessage');
+     el.hidden = true
+  }, 10000)
   socket.emit('newUser', { user });
 
   socket.on('message', (message, user) => {
      console.log(message.user);
-     createMessage(`${message.user.user.username}: ${message.message}`);
+     createMessage();
   });
   
   socket.on('userConnected', (user) => {
@@ -41,13 +51,49 @@
   button.addEventListener('click', (e) => {
      e.preventDefault();
      const message = msgInput.value;
-     createMessage(`${user.username}: ${message}`)
+     createMessage(message);
+     button.focus();
      socket.emit('sendMessage', message);
      msgInput.value = '';
   });
+  async function sendWelcome() {
+   const msgElement = document.createElement('div');
+     msgElement.id = 'welcomeMessage'
+     msgElement.className = 'msg'
+     msgElement.innerHTML = `<b>Welcome to the chatroom, ${user.username}</b>`
+     
+     msgContainer.append(msgElement);
+     }
   function createMessage(message) {
      const msgElement = document.createElement('div');
-     msgElement.innerText = message;
+     msgElement.id = 'welcomeMessage'
+     msgElement.className = 'msg';
+     msgElement.scrollTop = msgElement.scrollHeight;
+     msgElement.innerHTML = `<p>${user.username}<span> | ${new Date().toLocaleTimeString().slice(0, 5)}</span></p>
+     <p>${message}</p>
+     `
      msgContainer.append(msgElement);
   }
+  sendWelcome()
 </script>
+
+<style>
+   .msg {
+      background-color: rgb(99, 98, 98);
+      color: white;
+      margin-top: 10px;
+   }
+   .container {
+      background-color: rgb(185, 182, 182);
+      text-align: center;
+   }
+   .msg-container {
+      text-align: center;
+      display: inline-block;
+      height: 600px;
+   }
+   input {
+      border-radius: 15px;
+   }
+
+</style>
