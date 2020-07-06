@@ -33,31 +33,65 @@ app.use(
 	})
 );
 
-app.get('/:user/chat', async (req, res) => {
-	res.render('chat', { user: await user.findOne({ id: req.params.user }) });
+app.post('/login', async (req, res) => {
+	const username = req.body.username;
+	const password = req.body.password;
+	const findU = await user.findOne({ username });
+
+	if (findU === null) {
+		res.render('login', { message: 'That username does not exist' });
+	} else {
+		try {
+			if (await argon2.verify(findU.password, password)) {
+				console.log('yes, do');
+				res.redirect(`/users/${findU.id}`);
+			} else {
+				res.render('login', { message: 'That is an incorrect password.' });
+			}
+		} catch (e) {
+			res.render('login', { message: 'Something went wrong... Please try again.' });
+			console.log(e);
+		}
+	}
 });
 
 io.on('connection', (socket) => {
 	console.log('a user has connected');
 	socket.on('sendMessage', (message) => {
-		console.log(message);
-		socket.broadcast.emit('message', { message, username: users[socket.io] });
+		console.log(users[socket.id]);
+		socket.broadcast.emit('message', { message, user: users[socket.id] });
 	});
 	const users = {};
 	socket.on('newUser', (user) => {
 		users[socket.id] = user;
+		console.log(users);
 		socket.broadcast.emit('userConnected', user);
 	});
-	socket.on('disconnect', (user) => {
-		users[socket.id] = user;
-		socket.broadcast.emit('userDisconnected', user);
+	socket.on('disconnect', () => {
+		socket.broadcast.emit('userDisconnected', users[socket.id]);
+		delete users[socket.id];
 	});
 });
 
+app.get('/:user/chat', async (req, res) => {
+	const person = await user.findOne({ id: req.params.user });
+	if (person === null) {
+		console.log('user null');
+		res.render('404', { joke: 'That user ID does not exist.' });
+	} else {
+		console.log('user not null');
+		res.render('chat', { user: person });
+	}
+	console.log('bob');
+});
+
 app.get('/users/:user', async (req, res) => {
-	res.render('dashboard', {
-		user: await user.findOne({ id: req.params.user })
-	});
+	const person = await user.findOne({ id: req.params.user });
+	if (person === null) {
+		res.render('404', { joke: 'That user ID does not exist.' });
+	} else {
+		res.render('dashboard', { user: person });
+	}
 });
 
 app.get('/login', (req, res) => {
@@ -72,7 +106,6 @@ app.get('/create', (req, res) => {
 
 app.get('/url', async (req, res) => {
 	console.log(`user: ${req.ip}\nurl: ${req.hostname}${req.path}`);
-	console.log(req.isUnauthenticated());
 	res.render('url');
 });
 
@@ -99,29 +132,7 @@ app.post('/create', async (req, res) => {
 	}
 });
 
-app.post('/login', async (req, res) => {
-	console.log(await user.find());
-	const username = req.body.username;
-	const password = req.body.password;
-	const findU = await user.findOne({ username });
-
-	if (findU === null) {
-		res.render('login', { message: 'That username does not exist' });
-	} else {
-		try {
-			if (await argon2.verify(findU.password, password)) {
-				res.redirect(`/users/${findU.id}`);
-			} else {
-				res.render('login', { message: 'That is an incorrect password.' });
-			}
-		} catch (e) {
-			res.render('login', { message: 'Something went wrong... Please try again.' });
-			console.log(e);
-		}
-	}
-});
 app.post('/url', async (req, res) => {
-	console.log(req.isUnauthenticated());
 	const newURL = await url.create({
 		short: short.generate(req.body.full),
 		full: req.body.full
@@ -135,7 +146,7 @@ app.get('/file/:url', async (req, res) => {
 	if (check === null) {
 		res.render('404', { joke: "Thats not a correct URL! You've hit the 404 page nerd!" });
 	} else {
-		res.redirect(check.full);
+		res.redirect(check.full, 200);
 	}
 });
 
