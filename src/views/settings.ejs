@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>OfficiallyLost</title>
+   <link rel="shortcut icon" type="image/x-icon" href="https://cdn.discordapp.com/avatars/475371795185139712/c4fda398ffa314b544a82aab449b41d3.png"/>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.1/css/bulma.min.css">
+</head>
+<body>
+   <div class="h1">
+      <h1>Configure your user settings</h1>
+   </div>
+   <div class="columns is-variable is-1-mobile is-0-tablet is-3-desktop is-8-widescreen is-2-fullhd">
+      <div class="column">
+         <form action="/users/<%- user.id %>/settings/save" method="POST">
+            <div>
+               <label for="username"><p class="option">Username</p></label>
+               <input type="text" name="username" class="input is-rounded" minlength="4" placeholder="Username" id="username"/>
+               <span class="icon is-small is-left"><i class="fas fa-lock"></i><p class="option"></span>
+            </div>
+            <div class="column">
+               <label for="password"><p class="option">Password</p></label>
+               <input type="text" name="password" class="input is-rounded" minlength="6" placeholder="Password"/>
+               <span class="icon is-small is-left"><i class="fas fa-lock"></i><p class="option"></span>
+            </div>
+         </form>
+      </div>
+    </div>
+    <div class="notifcation-body">
+      <div class="notification  <%= colour %> " id="notif"style="width: 18%; margin-left: 31px;">
+         <button class="delete" id="btn"></button>
+         <%- message %>
+      </div>
+    </div>
+</body>
+</html>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+  (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+    $notification = $delete.parentNode;
+    const element = document.getElementById('btn') && document.getElementById('notif')
+    $delete.addEventListener('click', () => { 
+    let op = 1; 
+    let timer = setInterval( ()  => {
+      if (op <= 0.1){
+         clearInterval(timer);
+         element.style.display = 'none';
+      }
+      element.style.opacity = op;
+      element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+      op -= op * 0.1;
+      }, 50); 
+    });
+  });
+});
+</script>
+
+
+<style>
+
+.notification-body {
+   position: relative;
+}
+.notification {
+   position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.h1 {
+   text-align: center;
+}
+h1 {
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      font-weight: 100;
+      font-size: larger;
+      display: inline-block;
+      color: white;
+}
+
+.columns {
+   text-align: center !important;
+}
+.option {
+   font-family: Arial, Helvetica, sans-serif;
+   font-weight: 200;
+   font-size: larger;
+}
+
+.column {
+   text-align: center;
+   background-color: rgb(111, 225, 240);
+   margin: 15px;
+   padding: 7.8%;
+   border-radius: 10px;
+   border-color: unset;
+}
+
+input {
+   width: 50% !important;
+   display: inline-block;
+}
+body {
+   background-color: black;
+   top: 100%;
+}
+
+</style>
