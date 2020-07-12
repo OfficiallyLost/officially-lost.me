@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-module.exports = mongoose.connect(`mongodb://localhost/lost-site`, {
+module.exports = mongoose.connect(require('../config').url, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
 });
