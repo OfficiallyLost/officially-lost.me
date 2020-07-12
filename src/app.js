@@ -73,7 +73,7 @@ io.on('connection', (socket) => {
 	});
 });
 
-app.get('/:user/chat', async (req, res) => {
+app.get('/users/:user/chat', async (req, res) => {
 	const person = await user.findOne({ id: req.params.user });
 	if (person === null) {
 		console.log('user null');
@@ -83,6 +83,34 @@ app.get('/:user/chat', async (req, res) => {
 		res.render('chat', { user: person });
 	}
 	console.log('bob');
+});
+
+app.post('/users/:user/settings/save', async (req, res) => {
+	const person = await user.findOne({ id: req.params.user });
+	const username = req.body.username;
+	const password = req.body.password;
+	switch (true) {
+		case person === null:
+			res.render('404', { joke: 'That user ID does not exist' });
+			break;
+		case username === person.username:
+			console.log('it same');
+			res.render('settings', { message: 'No changes have been made', user: person, colour: 'is-danger' });
+			break;
+		case password === person.password:
+			res.render('settings', { message: 'No changes have been made', user: person, color: 'is-danger' });
+			console.log('pasword = person.peasrows');
+			break;
+		default:
+			await person.updateOne({ username, password });
+			console.log('saved');
+			res.render('settings', { message: 'Updates your settings!', user: person, colour: 'is-success' });
+	}
+});
+app.get('/users/:user/settings', async (req, res) => {
+	const person = await user.findOne({ id: req.params.user });
+	if (person === null) res.render('404', { joke: 'That user ID does not exist' });
+	else res.render('settings', { user: person, colour: '', message: '' });
 });
 
 app.get('/users/:user', async (req, res) => {
@@ -172,8 +200,8 @@ app.get('*', (req, res) => {
 	});
 });
 
-http.listen(8000, () => {
-	console.log('Listening on port ' + 8000);
+http.listen(9874, () => {
+	console.log('Listening on port ' + 9874);
 });
 
 function allowed(req, res, next) {}
