@@ -1,18 +1,18 @@
 <%- include('../parts/body') %>
    <body>
+      <label for="send-message-input">
+         <button class="button is-success is-rounded" id="button" type="submit">Send Message</button>
+      </label>
+      <input
+      id="send-message-input"
+      type="text"
+      placeholder="Enter Message"
+      required
+      autocomplete="off"
+      />
       <div class="container" id="send-message-container">
+      </div>
          <div class="msg-container">
-            <label for="send-message-input">
-               <button class="button is-success is-rounded" id="button">Send Message</button>
-            </label>
-            <input
-            id="send-message-input"
-            type="text"
-            placeholder="Enter Message"
-            required
-            autocomplete="off"
-            />
-         </div>
       </div>
    </body>
 </html>
@@ -31,7 +31,6 @@
   socket.emit('newUser', { user });
 
   socket.on('message', (message, user) => {
-     console.log(message.user);
      createMessage();
   });
   
@@ -65,8 +64,9 @@
      msgElement.className = 'msg';
      msgElement.scrollTop = msgElement.scrollHeight;
      msgElement.innerHTML = `<p>${user.username}<span> | ${new Date().toLocaleTimeString().slice(0, 5)}</span></p>
-     <p>${message}</p>
-     `
+     <p>${message}</p>`
+     msgContainer.style.display = 'flex';
+     msgContainer.style.flexDirection = 'column-reverse';
      msgContainer.append(msgElement);
   }
   sendWelcome()
