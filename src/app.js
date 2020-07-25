@@ -52,6 +52,13 @@ app.get('/delta', (req, res) => {
 	res.redirect('https://deltabot.tech');
 });
 
+app.get('/askr', (req, res) => {
+	res.render('askr');
+});
+app.get('/ask', (req, res) => {
+	res.render('ask');
+});
+
 app.post('/login', async (req, res) => {
 	const username = req.body.username;
 	const password = req.body.password;
