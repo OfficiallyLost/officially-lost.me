@@ -33,6 +33,25 @@ app.use(
 	})
 );
 
+app.get('/projects', (req, res) => {
+	res.render('projects');
+});
+
+app.get('/square', (req, res) => {
+	res.redirect('https://discord.gg/5tXAT35');
+});
+app.get('/cc', (req, res) => {
+	res.redirect(`https://discord.gg/q7qk35W`);
+});
+
+app.get('/lost', (req, res) => {
+	res.redirect('https://discord.gg/FWTRPS9');
+});
+
+app.get('/delta', (req, res) => {
+	res.redirect('https://deltabot.tech');
+});
+
 app.post('/login', async (req, res) => {
 	const username = req.body.username;
 	const password = req.body.password;
@@ -174,7 +193,7 @@ app.get('/file/:url', async (req, res) => {
 	if (check === null) {
 		res.render('404', { joke: "Thats not a correct URL! You've hit the 404 page nerd!" });
 	} else {
-		res.redirect(check.full, 200);
+		res.redirect(check.full);
 	}
 });
 
