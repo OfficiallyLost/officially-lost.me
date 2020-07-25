@@ -1,0 +1,72 @@
+<%- include('../parts/body') %>
+<div class="lol">
+	<h1 class="h1-project title is-2">My Projects</h1>
+</div>
+<div class="container">
+	<div class="cont-box">
+			<div class="header">
+				<p class="subtitle is-4 b-name">Square</p>
+				<img src="https://images-ext-1.discordapp.net/external/Bzm6c3ZT8r5O4Y1ayL7vjQ0iFW5ILT_fsXzzknIG0lw/%3Fsize%3D1024/https/	cdn.discordapp.com/avatars/684919629365510154/8c0b59a7985755b17fafa7b784ffed1e.webp" width="70" height="50" />
+			</div>
+			<p class="subtitle is-5">I am the Community Manager of Square, you may find me about there! Be sure to join us by clicking <a href="/square">here</a>!</p>
+		</div>
+		<div class="cont-box">
+			<div class="header">
+				<p class="subtitle is-4 b-name">Code Community</p>
+				<img class="logo" src="https://images-ext-1.discordapp.net/external/nlRLv8zWmirkkKNcxkVjGSSDBMEORefz-kjq_l_CPuY/%3Fsize%3D512/https/cdn.discordapp.com/icons/704687475670646875/b43c953067d61eda3704dd9ad10fb99f.png" width="50" height="50" />
+			</div>
+			<p class="subtitle is-5">I am a Marshal at Code Community, I help out and maintain the community, feel free to join us by clicking <a href="/cc">here</a>!</p>
+		</div>
+			<div class="cont-box">
+			<div class="header">
+				<p class="subtitle is-4 b-name">Lost</p>
+				<img class="logo" src="https://cdn.discordapp.com/emojis/680219368529068054.png" width="55" height="57" />
+			</div>
+			<p class="subtitle is-5">I am the Developer of Lost, not much to say about it apart it being my main project right now, if you'd like to check it out, click <a href="/lost">here</a> :)</p>
+	</div>
+<div class="cont-box">
+			<div class="header">
+				<p class="subtitle is-4 b-name">Delta</p>
+				<img class="logo" src="https://images-ext-1.discordapp.net/external/3JKFSjgVJ3vlk3S_-JoETgGb_nmwaPVgfP19Th-nh8E/%3Fsize%3D1024/https/cdn.discordapp.com/icons/627967081014624294/fcd7d8a66d0f2bf921efbcfd0925a7f1.png" width="55" height="57" />
+			</div>
+			<p class="subtitle is-5">I am a support member at Delta, I help out there whenever needed and help out with the bot, to check it out, simply click <a href="/delta">here</a></p>
+	</div>
+</div>
+
+<style>
+	.lol {
+		text-align: center;
+	}
+	.h1-project {
+		display: inline-block;
+		padding-bottom: 35px;
+	}
+	.container {
+   		display: grid;
+ 		grid-template-columns: repeat(2, 2fr);
+ 		grid-gap: 100px;
+  		grid-auto-rows: minmax(100px, auto);
+  	}
+  	.cont-box {
+  		background-color: #cbdbf5;
+  	}
+  	.header {
+  		text-align: right;
+  		background-color: #8db3f0;
+  		height: 63px;
+  	}
+  	.logo {
+  		border-radius: 4px;
+  		margin-top: 6px;
+  		margin-right: 6px;
+  	}
+  	.b-name {
+  		float: left;
+  		margin-left: 6px;
+  		margin-top: 3px;
+  		font-weight: 600;
+  	}
+  	.subtitle {
+  		margin: 10px;
+  	}
+</style>	
