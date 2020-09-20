@@ -44,9 +44,9 @@ app.get('/eris', (req, res) => {
 });
 
 app.get('/djs', (req, res) => {
-	const pURL = Url.parse(`https://${req.hostname}${req.path}?class=${req.query.class}?prop=${req.query.prop}`);
+	const pURL = Url.parse(`https://${req.hostname}${req.path}?class=${req.query.class}?scrollTo=${req.query.scrollTo}`);
 	const nURL = querystring.parse(pURL.query);
-	res.redirect(`https://discord.js.org/#/docs/main/stable/class/${nURL.class}?scrollTo=${nURL.prop}`)
+	res.redirect(`https://discord.js.org/#/docs/main/stable/class/${nURL.class}?scrollTo=${nURL.scrollTo}`)
 });
 
 app.get('/projects', (req, res) => {
