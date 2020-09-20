@@ -13,6 +13,8 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+const querystring = require('querystring');
+const url = require('url');
 
 db.then(() => console.log('Successfully connected the database')).catch((e) => console.log(e));
 process.on('unhandledRejection', () => {});
@@ -42,7 +44,9 @@ app.get('/eris', (req, res) => {
 });
 
 app.get('/djs', (req, res) => {
-	res.redirect(`https://discord.js.org/#/docs/main/stable/${req.query.class}/scrollTo=${req.query.prop}`)
+	const pURL = url.parse(`https://${req.hostname}/${req.path}?class=${req.query.class}?prop=${req.query.prop}`);
+	const nURL = querystring.parse(pURL.query);
+	res.redirect(`https://discord.js.org/#/docs/main/stable/class/${nURL.class}?scrollTo=${nURL.prop}`)
 });
 
 app.get('/projects', (req, res) => {
