@@ -33,24 +33,8 @@ app.use(
 	})
 );
 
-app.get('/askr', (req, res) => {
-	res.send(`
-		<head>
- <meta property="og:title" content="ask ur question retard"/>
-   <meta property="og:type" content="article"/>
-   <meta property="og:url" content="https://officially-lost.me"/>
-<body>
-	<h1>ask ur question and go away retard</h1>
-</body>`)
-});
 app.get('/ask', (req, res) => {
-	res.send(`<head>
- <meta property="og:title" content="ask ur question sir/ma'am"/>
-   <meta property="og:type" content="article"/>
-   <meta property="og:url" content="https://officially-lost.me"/>
-<body>
-	<h1>ask ur question and go away smh</h1>
-</body>`);
+	res.redirect('https://dontasktoask.com/');
 });
 
 app.get('/projects', (req, res) => {
