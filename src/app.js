@@ -41,8 +41,8 @@ app.get('/eris', (req, res) => {
 	res.redirect('https://abal.moe/Eris/docs');
 });
 
-app.get('/djs/:class/:prop', (req, res) => {
-	res.redirect(`https://discord.js.org/#/docs/main/stable/${req.params.class}/${req.params.prop}`)
+app.get('/djs', (req, res) => {
+	res.redirect(`https://discord.js.org/#/docs/main/stable/${req.query.class}/scrollTo=${req.query.prop}`)
 });
 
 app.get('/projects', (req, res) => {
