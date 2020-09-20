@@ -14,7 +14,7 @@ const cookieParser = require('cookie-parser');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const querystring = require('querystring');
-const url = require('url');
+const Url = require('url');
 
 db.then(() => console.log('Successfully connected the database')).catch((e) => console.log(e));
 process.on('unhandledRejection', () => {});
@@ -44,7 +44,7 @@ app.get('/eris', (req, res) => {
 });
 
 app.get('/djs', (req, res) => {
-	const pURL = url.parse(`https://${req.hostname}/${req.path}?class=${req.query.class}?prop=${req.query.prop}`);
+	const pURL = Url.parse(`https://${req.hostname}${req.path}?class=${req.query.class}?prop=${req.query.prop}`);
 	const nURL = querystring.parse(pURL.query);
 	res.redirect(`https://discord.js.org/#/docs/main/stable/class/${nURL.class}?scrollTo=${nURL.prop}`)
 });
