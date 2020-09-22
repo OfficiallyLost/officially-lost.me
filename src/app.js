@@ -43,6 +43,10 @@ app.get('/eris', (req, res) => {
 	res.redirect('https://abal.moe/Eris/docs');
 });
 
+app.get('/cart', (req, res) => {
+	res.send(`<iframe src="https://www.kongregate.com/games/MonkeyWantBanana/shopping-cart-hero-3" title="shopping cart game"></iframe>`);
+});
+
 app.get('/djs', (req, res) => {
 	const pURL = Url.parse(`https://${req.hostname}${req.path}?class=${req.query.class}?scrollTo=${req.query.scrollTo}`);
 	const nURL = querystring.parse(pURL.query);
