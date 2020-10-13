@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const db = require('./database/index');
+const issa = require('./Screenshot 2020-10-13 at 11.35.22').toString();
 const url = require('./database/models/url');
 const user = require('./database/models/user');
 const bodyParser = require('body-parser');
@@ -239,7 +240,7 @@ app.get('/file/:url', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-	res.render('home');
+	res.render('home', { issa });
 	console.log(`user: ${req.ip}\nurl: ${req.hostname}${req.path}`);
 });
 
